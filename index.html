@@ -1,0 +1,274 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>Theseus and the Minotaur Maze v1.0.0</title>
+	<link rel="shortcut icon" href="img/icon.ico">
+
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="css/editor.css">
+	<link rel="stylesheet" href="css/level-select.css">
+	<link rel="stylesheet" href="css/maze.css">
+	<link rel="stylesheet" href="css/overlay.css">
+	<link rel="stylesheet" href="css/title-screen.css">
+
+	<script src="js/events.js"></script>
+	<script src="js/overlay.js"></script>
+	<script src="js/sections.js"></script>
+
+	<script src="js/level-loader.js"></script>
+	<script src="js/title-screen.js"></script>
+	<script src="js/level-select.js"></script>
+	<script src="js/maze.js"></script>
+	<script src="js/game.js"></script>
+	<script src="js/editor.js"></script>
+	
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			const levels = LevelLoader.getLevels();
+
+			const $overlayBody = document.querySelector("#overlay .popup .body");
+			Overlay.init({
+				view: {
+					$overlay: document.querySelector("#overlay"),
+					popup: {
+						$root: document.querySelector("#overlay .popup"),
+						$body: $overlayBody
+					}
+				}
+			});
+			document.addEventListener("keydown", function(e) {
+				if (!Overlay.isOpen()) return;
+				if (e.key === "Escape" || e.key === "Esc") {
+					Overlay.close();
+					e.preventDefault();
+					e.stopPropagation();
+					return;
+				}
+				if (e.key === "Enter") {
+					var $button = $overlayBody.querySelector(".overlay-main-button");
+					if ($button) {
+						$button.dispatchEvent(new CustomEvent("tap", { bubbles: true, cancelable: true }));
+						e.preventDefault();
+						e.stopPropagation();
+					}
+					return;
+				}
+			});
+
+			Sections.init({
+				activeViewKey: "$titleScreen",
+				view: {
+					$titleScreen: document.querySelector("#title-screen"),
+					$levelSelect: document.querySelector("#level-select"),
+					$game: document.querySelector("#game")
+				}
+			});
+
+			const components = {
+				titleScreen: new TitleScreen({
+					view: {
+						buttons: {
+							$play: Sections.get("$titleScreen").querySelector("#play"),
+							$editor: Sections.get("$titleScreen").querySelector("#editor"),
+						},
+						checkboxes: {
+							$darkTheme: Sections.get("$titleScreen").querySelector("#dark-theme"),
+							$animation: Sections.get("$titleScreen").querySelector("#animation")
+						}
+					}
+				}),
+				levelSelect: new LevelSelect({
+					view: {
+						buttons: {
+							$clear: Sections.get("$levelSelect").querySelector(".menu .button.clear-symbol"),
+							$close: Sections.get("$levelSelect").querySelector(".menu .button.close-symbol")
+						},
+						templates: {
+							$confirmClear: Sections.get("$levelSelect").querySelector("template#popup-confirm-clear")
+						},
+						$levels: Sections.get("$levelSelect").querySelector("#levels")
+					},
+					levels: levels
+				}),
+				game: new Game({
+					view: {
+						buttons: {
+							$prev: Sections.get("$game").querySelector(".menu .button.prev-symbol"),
+							$next: Sections.get("$game").querySelector(".menu .button.next-symbol"),
+							$reset: Sections.get("$game").querySelector(".menu .button.reset-symbol"),
+							$undo: Sections.get("$game").querySelector(".menu .button.undo-symbol"),
+							$hint: Sections.get("$game").querySelector(".menu .button.hint-symbol"),
+							$close: Sections.get("$game").querySelector(".menu .button.close-symbol")
+						},
+						templates: {
+							$message: Sections.get("$game").querySelector("template#popup-message"),
+							$fail: Sections.get("$game").querySelector("template#popup-fail"),
+							$pass: Sections.get("$game").querySelector("template#popup-pass"),
+							$perfect: Sections.get("$game").querySelector("template#popup-perfect")
+						},
+						$title: Sections.get("$game").querySelector(".title-bar"),
+						$maze: Sections.get("$game").querySelector("#maze"),
+						$mazeWrapper: Sections.get("$game").querySelector("#maze-wrapper")
+					},
+					levels: levels
+				}),
+				editor: new Editor({
+					view: {
+						buttons: {
+							size: {
+								$widthDecrement: Sections.get("$game").querySelector("#width-control .button.decrement-symbol"),
+								$widthIncrement: Sections.get("$game").querySelector("#width-control .button.increment-symbol"),
+								$heightDecrement: Sections.get("$game").querySelector("#height-control .button.decrement-symbol"),
+								$heightIncrement: Sections.get("$game").querySelector("#height-control .button.increment-symbol"),
+							},
+							mode: {
+								$test: Sections.get("$game").querySelector("#editor-control #test"),
+								$edit: Sections.get("$game").querySelector("#editor-control #edit")
+							},
+							wall: {
+								$up: Sections.get("$game").querySelector("#wall-control .button.barred-up-arrow-bw-img-icon"),
+								$down: Sections.get("$game").querySelector("#wall-control .button.barred-down-arrow-bw-img-icon"),
+								$left: Sections.get("$game").querySelector("#wall-control .button.barred-left-arrow-bw-img-icon"),
+								$right: Sections.get("$game").querySelector("#wall-control .button.barred-right-arrow-bw-img-icon"),
+								$delete: Sections.get("$game").querySelector("#wall-control .button.delete-symbol"),
+							},
+							$help: Sections.get("$game").querySelector(".menu .button.help-symbol"),
+						},
+						templates: {
+							$help: Sections.get("$game").querySelector("template#popup-editor-help")
+						},
+						labels: {
+							$width: Sections.get("$game").querySelector("#width-control .label"),
+							$height: Sections.get("$game").querySelector("#height-control .label")
+						},
+					}
+				})
+			};
+			for (var component in components) {
+				if (components[component].registerComponents) {
+					components[component].registerComponents(components);
+				}
+			}
+		});
+	</script>
+</head>
+<body>
+	<div id="title-screen" class="section active">
+		<div class="title-bar">
+			<div class="title" dataset-version="v1.0.0">Theseus and the Minotaur Maze</div>
+		</div>
+		<div>
+			<div id="dark-theme" class="checkbox-wrapper">
+				<div class="checkbox"></div>
+				<div class="checkbox-label">Dark Theme</div>
+			</div>
+		</div>
+		<div>
+			<div id="animation" class="checkbox-wrapper">
+				<div class="checkbox"></div>
+				<div class="checkbox-label">Animation</div>
+			</div>
+		</div>
+		<div id="play" class="button editor-editing-show">PLAY</div>
+		<div id="editor" class="button editor-editing-hide">EDITOR</div>
+	</div>
+	<div id="level-select" class="section">
+		<div class="title-bar">Level Selection</div>
+		<div class="menu">
+			<div class="button clear-symbol"></div>
+			<div class="button close-symbol"></div>
+		</div>
+		<div id="levels"></div>
+		<template id="popup-confirm-clear">
+			<div class="text">Clear data?</div>
+			<div class="buttons">
+				<div class="button confirm-symbol"></div>
+				<div class="button close-symbol"></div>
+			</div>
+		</template>
+	</div>
+	<div id="game" class="section">
+		<div class="title-bar"></div>
+		<div class="menu">
+			<div class="button undo-symbol margin editor-editing-hide"></div>
+			<div class="button prev-symbol editor-hide"></div>
+			<div class="button reset-symbol editor-editing-hide"></div>
+			<div class="button next-symbol editor-hide"></div>
+			<div class="button hint-symbol editor-editing-hide"></div>
+			<div class="button help-symbol editor-editing-show"></div>
+			<div class="button close-symbol"></div>
+		</div>
+		<div id="maze-wrapper">
+			<div id="maze"></div>
+		</div>
+		<div id="editor-control" class="editor-show">
+			<div class="editor-playing-fade">
+				<div id="width-control">
+					<span class="static-label">&#x2b0c;</span>
+					<div class="button decrement-symbol"></div>
+					<span class="label"></span>
+					<div class="button increment-symbol"></div>
+				</div>
+				<div id="height-control">
+					<span class="static-label">&#x2b0d;</span>
+					<div class="button decrement-symbol"></div>
+					<span class="label"></span>
+					<div class="button increment-symbol"></div>
+				</div>
+				<div id="wall-control">
+					<span class="static-label brick-bw-img-icon"></span>
+					<div class="button barred-left-arrow-bw-img-icon"></div>
+					<div class="button barred-right-arrow-bw-img-icon"></div>
+					<div class="button barred-up-arrow-bw-img-icon"></div>
+					<div class="button barred-down-arrow-bw-img-icon"></div>
+					<div class="button delete-symbol"></div>
+				</div>
+			</div>
+			<div id="mode-control">
+				<div id="test" class="button play-bw-img-icon editor-editing-show"></div>
+				<div id="edit" class="button stop-bw-img-icon editor-editing-hide"></div>
+			</div>
+		</div>
+		<template id="popup-message">
+			<div class="text"></div>
+		</template>
+		<template id="popup-fail">
+			<div class="big-text text-red"></div>
+			<div class="text"></div>
+			<div class="buttons">
+				<div class="button reset-symbol overlay-main-button"></div>
+			</div>
+		</template>
+		<template id="popup-pass">
+			<div class="big-text text-blue"></div>
+			<div class="text"></div>
+			<div class="buttons">
+				<div class="button reset-symbol"></div>
+				<div class="button next-symbol overlay-main-button"></div>
+			</div>
+		</template>
+		<template id="popup-perfect">
+			<div class="big-text text-green"></div>
+			<div class="text"></div>
+			<div class="buttons">
+				<div class="button reset-symbol"></div>
+				<div class="button next-symbol overlay-main-button"></div>
+			</div>
+		</template>
+		<template id="popup-editor-help">
+			<div class="big-text"></div>
+			<div class="text"></div>
+		</template>
+	</div>
+	<div id="overlay" class="section">
+		<div class="popup">
+			<div class="menu">
+				<div class="button button-small close-symbol"></div>
+			</div>
+			<div class="body"></div>
+		</div>
+	</div>
+</body>
+</html>

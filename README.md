@@ -1,1 +1,1 @@
-# theseus
+# Theseus and the Minotaur Maze

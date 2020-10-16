@@ -1,0 +1,232 @@
+html,
+body {
+	overflow: hidden;
+	user-select: none;
+}
+
+body {
+	background: #f5f0e1;
+	color: black;
+}
+
+.section {
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	flex-direction: column;
+}
+.section:not(.active) {
+	display: none;
+}
+.section .title-bar {
+	padding: 10px 10px 0;
+	font-size: 40px;
+	font-weight: bold;
+	line-height: 65px;
+	min-height: 65px;
+	text-align: center;
+}
+
+.menu {
+	position: absolute;
+	padding: 10px;
+	right: 0;
+	top: 0;
+}
+.button {
+	display: inline-block;
+	width: 50px;
+	height: 50px;
+	cursor: pointer;
+	border-radius: 50%;
+	border: 2px solid black;
+	padding: 2px;
+	text-align: center;
+	vertical-align: middle;
+	position: relative;
+}
+.button::after {
+	display: block;
+	width: 100%;
+	height: 100%;
+	line-height: 50px;
+	font-size: 40px;
+}
+.button[class$="-bw-img-icon"]::after,
+.button[class*="-bw-img-icon "]::after {
+	content: '';
+	display: block;
+	position: absolute;
+	width: auto;
+	height: auto;
+	top: 20%;
+	left: 20%;
+	right: 20%;
+	bottom: 20%;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.button.button-small {
+	width: 22px;
+	height: 22px;
+}
+.button.button-small::after {
+	line-height: 22px;
+	font-size: 18px;
+}
+.button.margin {
+	margin-right: 10px;
+}
+.button.mouse-hover {
+	background: lightgrey;
+}
+.button.pointer-down {
+	background: #ccc;
+}
+.button.disabled {
+	pointer-events: none;
+	opacity: 0.4;
+}
+.button.prev-symbol::after {
+	content: '\276e';
+}
+.button.reset-symbol::after {
+	content: '\21ba';
+}
+.button.next-symbol::after {
+	content: '\276f';
+}
+.button.undo-symbol::after {
+	content: '\293a';
+}
+.button.hint-symbol::after {
+	content: '\1f4a1';
+}
+.button.close-symbol::after {
+	content: '\2715';
+}
+.button.clear-symbol::after {
+	content: '\1f5d1';
+}
+.button.confirm-symbol::after {
+	content: '\2713';
+}
+.button.decrement-symbol::after {
+	content: '\2212';
+}
+.button.increment-symbol::after {
+	content: '+';
+}
+.button.play-bw-img-icon::after {
+	background-image: url('../img/play.png');
+}
+.button.stop-bw-img-icon::after {
+	top: 30%;
+	left: 30%;
+	right: 30%;
+	bottom: 30%;
+	background: black;
+}
+.button.help-symbol::after {
+	content: '?';
+}
+.button.barred-up-arrow-bw-img-icon::after {
+	background-image: url('../img/barred-up-arrow.png');
+}
+.button.barred-down-arrow-bw-img-icon::after {
+	background-image: url('../img/barred-down-arrow.png');
+}
+.button.barred-left-arrow-bw-img-icon::after {
+	background-image: url('../img/barred-left-arrow.png');
+}
+.button.barred-right-arrow-bw-img-icon::after {
+	background-image: url('../img/barred-right-arrow.png');
+}
+.button.delete-symbol::after {
+	content: '\2715';
+}
+
+.checkbox-wrapper {
+	display: inline-block;
+	line-height: 20px;
+	margin: 5px;
+}
+.checkbox {
+	width: 20px;
+	height: 20px;
+	margin: 2px 5px;
+	display: inline-block;
+	position: relative;
+	border: 1px solid black;
+	vertical-align: bottom;
+}
+.checkbox.active::before {
+	content: '\2713';
+	display: block;
+	position: absolute;
+	font-size: 25px;
+	line-height: 25px;
+	bottom: 0;
+	right: 0;
+}
+.checkbox-label {
+	display: inline-block;
+	width: 200px;
+	font-size: 20px;
+}
+
+@media (max-width: 600px) {
+	#level-select .menu, #game .menu {
+		position: unset;
+		text-align: right;
+	}
+}
+
+@media (max-width: 600px), (max-height: 600px) {
+	.section .title-bar {
+		font-size: 30px;
+		line-height: 45px;
+		min-height: 45px;
+	}
+
+	.button {
+		width: 30px;
+		height: 30px;
+	}
+	.button::after {
+		font-size: 25px;
+		line-height: 30px;
+	}
+}
+
+@media (min-width: 600px) and (max-width: 1200px) {
+	#game .title-bar {
+		text-align: left;
+	}
+}
+
+body.dark {
+	background: black;
+	color: white;
+}
+body.dark .button {
+	border-color: white;
+}
+body.dark .button.mouse-hover {
+	background: grey;
+}
+body.dark .button.pointer-down {
+	background: #333;
+}
+body.dark .checkbox {
+	border-color: white;
+}
+
+body.dark [class$="-bw-img-icon"]::after,
+body.dark [class*="-bw-img-icon "]::after {
+	filter: invert(1);
+}

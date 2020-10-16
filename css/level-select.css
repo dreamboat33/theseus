@@ -1,0 +1,48 @@
+#levels {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	overflow-y: auto;
+	padding: 0 10px;
+}
+#levels .level-item {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 20px;
+	font-weight: bold;
+	padding: 20px;
+	margin: 10px;
+	border: 3px solid black;
+	background: lightgrey;
+	text-align: center;
+	vertical-align: middle;
+}
+#levels .level-item.level-item-dummy {
+	height: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+	border-top-width: 0;
+	border-bottom-width: 0;
+	background-color: transparent;
+}
+
+#levels .level-item.score-pass {
+	background: #ffd700;
+}
+#levels .level-item.score-perfect {
+	background: #bfb;
+}
+#levels .level-item.mouse-hover {
+	background: grey;
+}
+#levels .level-item.pointer-down {
+	background: #aaa;
+}
+
+body.dark #levels .level-item {
+	border-color: white;
+	color: black;
+}

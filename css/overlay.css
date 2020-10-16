@@ -1,0 +1,57 @@
+#overlay.active {
+	display: block;
+	background: rgba(0, 0, 0, 0.6);
+	text-align: center;
+	z-index: 9999;
+}
+#overlay::before {
+	content: '';
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+}
+#overlay .popup {
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+	background: white;
+	border-radius: 5px;
+	border: 2px solid black;
+	padding: 10px 50px;
+	box-sizing: border-box;
+	max-width: 80%
+}
+#overlay .popup .body > * {
+	margin: 20px 0;
+}
+#overlay .popup .body .big-text {
+	line-height: 30px;
+	font-size: 28px;
+	font-weight: bold;
+	text-align: center;
+}
+#overlay .popup .body .text {
+	line-height: 20px;
+	font-size: 18px;
+}
+#overlay .popup .body .text-red {
+	color: red;
+}
+#overlay .popup .body .text-blue {
+	color: blue;
+}
+#overlay .popup .body .text-green {
+	color: green;
+}
+#overlay .popup .body .buttons .button {
+	margin: 0 5px;
+}
+
+body.dark #overlay .popup {
+	background: black;
+	border-color: white;
+	color: white;
+}
+body.dark #overlay .popup .body .text-blue {
+	color: cyan;
+}

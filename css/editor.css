@@ -1,0 +1,103 @@
+.brick-bw-img-icon::after {
+	content: '';
+	display: inline-block;
+	width: 25px;
+	height: 20px;
+	background: url('../img/brick.png') center no-repeat;
+	background-size: contain;
+	vertical-align: middle;
+}
+.play-bw-img-icon::after {
+	content: '';
+	display: inline-block;
+	width: 25px;
+	height: 20px;
+	background: url('../img/play.png') center no-repeat;
+	background-size: contain;
+	vertical-align: middle;
+}
+
+#editor-control {
+	display: flex;
+	justify-content: center;
+}
+#editor-control > * {
+	padding: 5px 30px 10px;
+}
+#editor-control #mode-control::before {
+	content: '';
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+}
+#editor-control #mode-control .button {
+	vertical-align: middle;
+}
+
+#editor-control span {
+	display: inline-block;
+	width: 25px;
+	padding: 0 3px;
+	font-size: 25px;
+	line-height: 30px;
+	text-align: center;
+	vertical-align: middle;
+}
+#editor-control span.label {
+	width: 30px;
+	padding: 0;
+	font-size: 30px;
+}
+
+#editor-control .button#test,
+#editor-control .button#edit {
+	width: 70px;
+	height: 70px;
+}
+#editor-control .button#test::after,
+#editor-control .button#edit::after {
+	font-size: 60px;
+	line-height: 70px;
+}
+
+@media(max-width: 600px) {
+	#editor-control {
+		justify-content: space-between;
+	}
+	#editor-control > * {
+		padding: 5px 10px 15px;
+	}
+
+	#editor-control span.label {
+		font-size: 20px;
+	}
+
+	#editor-control .button#test,
+	#editor-control .button#edit {
+		width: 50px;
+		height: 50px;
+	}
+	#editor-control .button#test::after,
+	#editor-control .button#edit::after {
+		font-size: 40px;
+		line-height: 50px;
+	}
+}
+
+#game:not(.editor-active) .editor-show,
+#game.editor-active .editor-hide,
+#game:not(.editor-editing) .editor-editing-show,
+#game.editor-editing .editor-editing-hide {
+	display: none;
+}
+#game:not(.editor-editing) .editor-playing-fade {
+	pointer-events: none;
+	opacity: 0.2;
+}
+
+#game.editor-editing .cell.highlight {
+	background: rgba(0, 255, 255, 0.6);
+}
+#game.editor-editing .cell.exit.highlight {
+	background: rgba(0, 170, 170, 0.6);
+}

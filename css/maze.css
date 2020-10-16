@@ -1,0 +1,73 @@
+#maze-wrapper {
+	position: relative;
+	flex: 1;
+	text-align: center;
+}
+#maze-wrapper::before {
+	content: '';
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+}
+#maze {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+}
+#maze .row {
+	display: flex;
+}
+#maze .cell {
+	position: relative;
+}
+#maze .cell .wall {
+	position: absolute;
+	background: #ddd;
+}
+#maze .cell .wall.wall-active {
+	background: black;
+	z-index: 1;
+}
+#maze .cell .wall.wall-n {
+	top: 0;
+	left: 0;
+}
+#maze .cell .wall.wall-e {
+	top: 0;
+	right: 0;
+}
+#maze .cell .wall.wall-s {
+	bottom: 0;
+	left: 0;
+}
+#maze .cell .wall.wall-w {
+	top: 0;
+	left: 0;
+}
+#maze .cell.exit {
+	background: orange;
+}
+#maze .theseus,
+#maze .minotaur {
+	position: absolute;
+}
+#maze .theseus::after,
+#maze .minotaur::after {
+	display: block;
+	content: '';
+	width: 80%;
+	height: 80%;
+	margin: 10%;
+	border-radius: 50%;
+	background: red;
+}
+#maze .minotaur::after {
+	background: blue;
+}
+
+body.dark #maze .cell .wall {
+	background: #333;
+}
+body.dark #maze .cell .wall.wall-active {
+	background: white;
+}
